@@ -8,36 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentJdbc {
+    JdbcUtil jdbc_util = new JdbcUtil();
+
     public void InsertStudent(Student student) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
+        jdbc_util.Connect();
+        String sql;
+        sql = "INSERT INTO STUDENT VALUES (?)";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database?serverTimezone=UTC","root","123456");
-
-            String sql;
-            sql = "INSERT INTO STUDENT VALUES (?)";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, student.getStudent_name());
-            stmt.executeUpdate();
-
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            jdbc_util.stmt = jdbc_util.conn.prepareStatement(sql);
+            jdbc_util.stmt.setString(1, student.getStudent_name());
+            jdbc_util.stmt.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2){ }
-
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se) {
-                se.printStackTrace();
-            }
         }
+        jdbc_util.Close();
     }
 
     public List<Homework> QueryHomework(Student student) {
