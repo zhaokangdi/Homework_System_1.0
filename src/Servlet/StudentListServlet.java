@@ -1,8 +1,6 @@
 package Servlet;
 
-import Jdbc.StudentJdbc;
 import Jdbc.TeacherJdbc;
-import Model.Homework;
 import Model.Student;
 import Model.Teacher;
 
@@ -12,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 @WebServlet("/StudentListServlet")

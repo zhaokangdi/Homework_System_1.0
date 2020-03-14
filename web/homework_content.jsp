@@ -1,16 +1,17 @@
-<%@ page import="main.java.Model.Student" %>
+<%@ page import="main.java.Model.Homework" %>
 <%@ page import="java.util.List" %>
-<%@ page import="main.java.Model.Submit" %><%--
+<%@ page import="main.java.Model.Student" %>
+<%@ page import="main.java.Jdbc.StudentJdbc" %><%--
   Created by IntelliJ IDEA.
   User: 17301
-  Date: 2020/3/9
-  Time: 20:12
+  Date: 2020/3/14
+  Time: 15:11
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>学生作业</title>
+    <title>作业内容</title>
     <link rel="icon" type="image/ico">
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/materialdesignicons.min.css" rel="stylesheet">
@@ -60,40 +61,24 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="card">
-                            <div class="card-header">
-                                <div class="toolbar-btn-action">
-                                    <a class="btn btn-default m-r-5 add_homework" href="HomeworkListServlet">← 返回</a>
-                                </div>
-                            </div>
-
                             <div class="card-body">
-                                <table class="table">
-                                    <thead>
-                                    <tr>
-                                        <th style="text-align: center">#</th>
-                                        <th style="text-align: center">学生姓名</th>
-                                        <th style="text-align: center"></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <%
-                                        List<Submit> submit_list = (List<Submit>) request.getAttribute("submit_list");
-                                        int i = 0;
-                                        for(Submit submit: submit_list) {
-                                    %>
-                                    <tr style="text-align: center">
-                                        <th scope="row" style="text-align: center"><%=i+1%></th>
-                                        <td><%=submit.getStudent_name()%></td>
-                                        <td>
-                                            <a type="submit" class="btn btn-primary btn-xs" data-toggle="modal" href="CheckContentServlet?homework_title=<%=submit.getHomework_title()%>&teacher_name=<%=session.getAttribute("teacher_name")%>&student_name=<%=submit.getStudent_name()%>">查看作业</a>
-                                        </td>
-                                    </tr>
-                                    <%
-                                            i++;
-                                        }
-                                    %>
-                                    </tbody>
-                                </table>
+                                <form action="SubmitHomeworkServlet" method="post" class="row">
+                                    <div class="form-group col-md-12">
+                                        <label for="homework_title">作业名称</label>
+                                        <input type="text" class="form-control" id="homework_title" name="homework_title" value="<%=request.getParameter("homework_title")%>" readonly />
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="teacher_name">学生姓名</label>
+                                        <input type="text" class="form-control" id="teacher_name" name="teacher_name" value="<%=request.getParameter("student_name")%>" readonly />
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label for="seo_description">作业内容</label>
+                                        <textarea class="form-control" id="seo_description" name="content" rows="5" readonly><%=request.getAttribute("content")%></textarea>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <a type="submit" class="btn btn-default" href="TeacherHomeworkSubmitServlet?homework_title=<%=request.getParameter("homework_title")%>">返 回</a>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>

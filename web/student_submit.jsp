@@ -1,7 +1,7 @@
-<%@ page import="Model.Homework" %>
+<%@ page import="main.java.Model.Homework" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Model.Student" %>
-<%@ page import="Jdbc.StudentJdbc" %><%--
+<%@ page import="main.java.Model.Student" %>
+<%@ page import="main.java.Jdbc.StudentJdbc" %><%--
   Created by IntelliJ IDEA.
   User: 17301
   Date: 2020/3/9

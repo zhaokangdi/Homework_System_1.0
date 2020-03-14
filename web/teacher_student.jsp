@@ -1,4 +1,4 @@
-<%@ page import="Model.Student" %>
+<%@ page import="main.java.Model.Student" %>
 <%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: 17301

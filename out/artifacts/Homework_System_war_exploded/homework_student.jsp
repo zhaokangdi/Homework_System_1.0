@@ -85,23 +85,7 @@
                                         <th scope="row" style="text-align: center"><%=i+1%></th>
                                         <td><%=submit.getStudent_name()%></td>
                                         <td>
-                                            <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#gridSystemModal">查看作业</button>
-                                            <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel" id="gridSystemModal">
-                                                <div class="modal-dialog" role="document">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                                            <h4 class="modal-title" id="gridSystemModalLabel">作业内容</h4>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <textarea class="form-control" id="message-text" readonly><%=submit.getContent()%></textarea>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-primary" data-dismiss="modal">确定</button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <a type="submit" class="btn btn-primary btn-xs" data-toggle="modal" href="CheckContentServlet?homework_title=<%=submit.getHomework_title()%>&teacher_name=<%=session.getAttribute("teacher_name")%>&student_name=<%=submit.getStudent_name()%>">查看作业</a>
                                         </td>
                                     </tr>
                                     <%

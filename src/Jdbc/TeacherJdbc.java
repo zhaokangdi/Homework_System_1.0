@@ -10,236 +10,155 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TeacherJdbc {
+    JdbcUtil jdbc_util = new JdbcUtil();
 
     public void AddTeacher(Teacher teacher) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
+        jdbc_util.Connect();
+
+        String sql;
+        sql = "INSERT INTO TEACHER VALUES (?)";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database?serverTimezone=UTC","root","123456");
-
-            String sql;
-            sql = "INSERT INTO TEACHER VALUES (?)";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, teacher.getTeacher_name());
-            stmt.executeUpdate();
-
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            jdbc_util.stmt = jdbc_util.conn.prepareStatement(sql);
+            jdbc_util.stmt.setString(1, teacher.getTeacher_name());
+            jdbc_util.stmt.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2){ }
-
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se) {
-                se.printStackTrace();
-            }
         }
+
+        jdbc_util.Close();
     }
 
     public List<Homework> QueryHomework(Teacher teacher) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
+        jdbc_util.Connect();
+
         List<Homework> homework_list = new ArrayList<>();
-
+        String sql;
+        sql = "SELECT * FROM HOMEWORK WHERE TEACHER_NAME=?";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database?serverTimezone=UTC","root","123456");
-
-            String sql;
-            sql = "SELECT * FROM HOMEWORK WHERE TEACHER_NAME=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, teacher.getTeacher_name());
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Homework homework = new Homework();
-                    homework.setHomework_title(rs.getString("homework_title"));
-                    homework.setTeacher_name(rs.getString("teacher_name"));
-                    homework_list.add(homework);
-                }
+            jdbc_util.stmt = jdbc_util.conn.prepareStatement(sql);
+            jdbc_util.stmt.setString(1, teacher.getTeacher_name());
+            ResultSet rs = jdbc_util.stmt.executeQuery();
+            while (rs.next()) {
+                Homework homework = new Homework();
+                homework.setHomework_title(rs.getString("homework_title"));
+                homework.setTeacher_name(rs.getString("teacher_name"));
+                homework_list.add(homework);
             }
-
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2){ }
-
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se) {
-                se.printStackTrace();
-            }
         }
 
+        jdbc_util.Close();
         return homework_list;
     }
 
     public void AddHomework(Teacher teacher, String homework_title) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
+        jdbc_util.Connect();
+
+        String sql;
+        sql = "INSERT INTO HOMEWORK VALUES (?,?)";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database?serverTimezone=UTC","root","123456");
-
-            String sql;
-            sql = "INSERT INTO HOMEWORK VALUES (?,?)";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, homework_title);
-            stmt.setString(2, teacher.getTeacher_name());
-            stmt.executeUpdate();
-
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            jdbc_util.stmt = jdbc_util.conn.prepareStatement(sql);
+            jdbc_util.stmt.setString(1, homework_title);
+            jdbc_util.stmt.setString(2, teacher.getTeacher_name());
+            jdbc_util.stmt.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2){ }
-
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se) {
-                se.printStackTrace();
-            }
         }
+
+        jdbc_util.Close();
     }
 
     public void AddStudent(Teacher teacher, String student_name) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
+        jdbc_util.Connect();
+
+        String sql;
+        sql = "INSERT INTO TEACH VALUES (?,?)";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database?serverTimezone=UTC","root","123456");
-
-            String sql;
-            sql = "INSERT INTO TEACH VALUES (?,?)";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, teacher.getTeacher_name());
-            stmt.setString(2, student_name);
-            stmt.executeUpdate();
-
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+            jdbc_util.stmt = jdbc_util.conn.prepareStatement(sql);
+            jdbc_util.stmt.setString(1, teacher.getTeacher_name());
+            jdbc_util.stmt.setString(2, student_name);
+            jdbc_util.stmt.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2){ }
-
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se) {
-                se.printStackTrace();
-            }
         }
+
+        jdbc_util.Close();
     }
 
     public List<Student> QueryStudent(Teacher teacher) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
+        jdbc_util.Connect();
         List<Student> student_list = new ArrayList<>();
 
+        String sql;
+        sql = "SELECT * FROM TEACH WHERE TEACHER_NAME=?";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database?serverTimezone=UTC","root","123456");
+            jdbc_util.stmt = jdbc_util.conn.prepareStatement(sql);
+            jdbc_util.stmt.setString(1, teacher.getTeacher_name());
 
-            String sql;
-            sql = "SELECT * FROM TEACH WHERE TEACHER_NAME=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, teacher.getTeacher_name());
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Student student = new Student(rs.getString("student_name"));
-                    student.setStudent_name(rs.getString("student_name"));
-                    student_list.add(student);
-                }
+            ResultSet rs = jdbc_util.stmt.executeQuery();
+            while (rs.next()) {
+                Student student = new Student(rs.getString("student_name"));
+                student.setStudent_name(rs.getString("student_name"));
+                student_list.add(student);
             }
-
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2){ }
-
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se) {
-                se.printStackTrace();
-            }
         }
 
+        jdbc_util.Close();
         return student_list;
     }
 
     public List<Submit> QuerySubmit(String homework_title, Teacher teacher) {
-        Connection conn = null;
-        PreparedStatement stmt = null;
+        jdbc_util.Connect();
         List<Submit> submit_list = new ArrayList<>();
 
+        String sql;
+        sql = "SELECT * FROM SUBMIT WHERE HOMEWORK_TITLE=? and TEACHER_NAME=?";
         try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/mysql_database?serverTimezone=UTC","root","123456");
+            jdbc_util.stmt = jdbc_util.conn.prepareStatement(sql);
+            jdbc_util.stmt.setString(1, homework_title);
+            jdbc_util.stmt.setString(2, teacher.getTeacher_name());
 
-            String sql;
-            sql = "SELECT * FROM SUBMIT WHERE HOMEWORK_TITLE=? and TEACHER_NAME=?";
-            stmt = conn.prepareStatement(sql);
-            stmt.setString(1, homework_title);
-            stmt.setString(2, teacher.getTeacher_name());
-
-            try (ResultSet rs = stmt.executeQuery()) {
-                while (rs.next()) {
-                    Submit submit = new Submit();
-                    submit.setHomework_title(homework_title);
-                    submit.setTeacher_name(teacher.getTeacher_name());
-                    submit.setStudent_name(rs.getString("student_name"));
-                    submit.setContent(rs.getString("content"));
-                    submit_list.add(submit);
-                }
+            ResultSet rs = jdbc_util.stmt.executeQuery();
+            while (rs.next()) {
+                Submit submit = new Submit();
+                submit.setHomework_title(homework_title);
+                submit.setTeacher_name(teacher.getTeacher_name());
+                submit.setStudent_name(rs.getString("student_name"));
+                submit.setContent(rs.getString("content"));
+                submit_list.add(submit);
             }
 
-            stmt.close();
-            conn.close();
-        } catch(SQLException se) {
-            se.printStackTrace();
-        } catch(Exception e) {
+        } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            try {
-                if(stmt!=null) stmt.close();
-            } catch(SQLException se2){ }
-
-            try {
-                if(conn!=null) conn.close();
-            } catch(SQLException se) {
-                se.printStackTrace();
-            }
         }
 
+        jdbc_util.Close();
         return submit_list;
+    }
+
+    public String CheckContent(String homework_title, Teacher teacher, String student_name) {
+        jdbc_util.Connect();
+        String content = null;
+
+        String sql;
+        sql = "SELECT CONTENT FROM SUBMIT WHERE HOMEWORK_TITLE=? and TEACHER_NAME=? and STUDENT_NAME=?";
+        try {
+            jdbc_util.stmt = jdbc_util.conn.prepareStatement(sql);
+            jdbc_util.stmt.setString(1, homework_title);
+            jdbc_util.stmt.setString(2, teacher.getTeacher_name());
+            jdbc_util.stmt.setString(3, student_name);
+            ResultSet rs = jdbc_util.stmt.executeQuery();
+            if(rs.next()) {
+                content = rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        jdbc_util.Close();
+        return content;
     }
 }
